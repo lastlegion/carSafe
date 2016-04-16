@@ -1,0 +1,6 @@
+{
+    "temperature": 23,
+    "colevels": "danger",
+    "type": "metric",
+    "gps": "20,100"
+}

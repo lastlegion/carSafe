@@ -1,5 +1,16 @@
 extends layout
-
 block content
-  h1= title
-  p Welcome to #{title}
+    nav(class="navbar navbar-default") 
+        a(class="navbar-brand") CarSafe Dashboard
+    div(class="col-md-5")
+        ul(class="list-group")    
+            li(class="list-group-item") 
+                strong Temperature 
+                div(id="temperature")
+            li(class="list-group-item")
+                strong CO Levels
+                div(id="colevels")
+            li(class="list-group-item")
+              strong GPS
+              div(id="gps")
+    script(src="/javascripts/script.js")
