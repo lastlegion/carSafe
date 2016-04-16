@@ -1,0 +1,21 @@
+[33m[nodemon] 1.9.1[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node ./bin/www`[39m
+events.js:141
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EBADF: bad file descriptor, read
+    at Error (native)
+[0mGET / [36m304 [0m293.176 ms - -[0m
+[0mGET /stylesheets/style.css [36m304 [0m2.620 ms - -[0m
+Connection established to mongodb://localhost:27017/carSafe
+Inserted NaN documents into the "users" collection. The documents inserted with "_id" are: { result: { ok: 1, n: 1 },
+  ops: [ { type: 'temperature', value: 40, _id: 57125a7485eb695b0bfeb8c0 } ],
+  insertedCount: 1,
+  insertedIds: [ 57125a7485eb695b0bfeb8c0 ] }
+[0mPOST /api/metric [32m200 [0m63.456 ms - 172[0m
+[0mGET /api/getTemperature [33m404 [0m27.567 ms - 1015[0m
+[0mGET /api/getTermperature [33m404 [0m29.144 ms - 1015[0m
+[0mGET /api/t [33m404 [0m10.806 ms - 1015[0m
