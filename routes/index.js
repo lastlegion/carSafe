@@ -17,6 +17,37 @@ var client = require('twilio')(accountSid, authToken);
 
 /* Get recent CO Level */
 
+/* Get recent temperature */
+router.get('/api/getCurrentMetrics2', function(req, res, next){
+    MongoClient.connect(url, function (err, db) {
+      if (err) {
+        console.log('Unable to connect to the mongoDB server. Error:', err);
+      } else {
+        //HURRAY!! We are connected. :)
+        console.log('Connection established to', url);
+
+        // Get the documents collection
+        var collection = db.collection('metrics');
+
+        // Insert some users
+        collection.find({}).sort({"timeStamp": -1}).toArray(function (err, result) {
+          if (err) {
+            console.log(err);
+          } else if (result.length) {
+            console.log('Found:', result.length);
+          } else {
+            console.log('No document(s) found with defined "find" criteria!');
+          }
+          res.send(result[0].air_quality);
+          //Close connection
+          db.close();
+        });
+      }
+    });
+});
+ 
+
+
  
 /* Get recent temperature */
 router.get('/api/getCurrentMetrics', function(req, res, next){
@@ -31,11 +62,42 @@ router.get('/api/getCurrentMetrics', function(req, res, next){
         var collection = db.collection('metrics');
 
         // Insert some users
-        collection.find({type: 'metric'}).sort({"timeStamp": -1}).toArray(function (err, result) {
+        collection.find({}).sort({"timeStamp": -1}).toArray(function (err, result) {
           if (err) {
             console.log(err);
           } else if (result.length) {
-            console.log('Found:', result);
+            console.log('Found:', result.length);
+          } else {
+            console.log('No document(s) found with defined "find" criteria!');
+          }
+          res.json(result[0]);
+          //Close connection
+          db.close();
+        });
+      }
+    });
+});
+ 
+
+
+/* Get recent temperature */
+router.get('/api/getCurrentMetrics', function(req, res, next){
+    MongoClient.connect(url, function (err, db) {
+      if (err) {
+        console.log('Unable to connect to the mongoDB server. Error:', err);
+      } else {
+        //HURRAY!! We are connected. :)
+        console.log('Connection established to', url);
+
+        // Get the documents collection
+        var collection = db.collection('metrics');
+
+        // Insert some users
+        collection.find({}).sort({"timeStamp": -1}).toArray(function (err, result) {
+          if (err) {
+            console.log(err);
+          } else if (result.length) {
+            console.log('Found:', result.length);
           } else {
             console.log('No document(s) found with defined "find" criteria!');
           }
@@ -116,6 +178,7 @@ router.post('/call', function(request, response) {
 router.post('/api/metric', function(req, res, next){
     var metric = req.body;
     metric.timeStamp = Date.now();
+    //metric.type = "metric1";
     //console.log(metric.username);
     //res.json(metric);
     console.log(metric); 
@@ -136,11 +199,11 @@ router.post('/api/metric', function(req, res, next){
                 } else {
                     console.log('Inserted %d documents into the "users" collection. The documents inserted with "_id" are:', result.length, result);
                 }
-                if(metric.colevels == "danger"){
+                if(metric.air_quality > 500){
                     client.messages.create({ 
                         to: "+19145007744", 
                         from: "+15163310465", 
-                        body: "[CarSafe Warning] Dangerous CO Levels ",   
+                        body: "[CarSafe Warning] Dangerous Air Quality Levels: "+metric.air_quality,   
                     }, function(err, message) { 
                         if(err){
                             console.log(err);
